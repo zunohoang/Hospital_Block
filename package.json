@@ -1,0 +1,31 @@
+{
+  "name": "hackathonno1",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@meshsdk/core": "^1.7.2",
+    "@meshsdk/react": "^1.7.2",
+    "@mui/material": "^6.0.2",
+    "formidable": "^3.5.1",
+    "lucid-cardano": "^0.10.10",
+    "mongoose": "^8.6.1",
+    "next": "^14.2.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "webpack": "^5.94.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.5.4",
+    "@types/react": "18.3.5",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.8"
+  }
+}
