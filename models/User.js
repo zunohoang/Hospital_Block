@@ -1,18 +1,18 @@
 // models/User.js
 import mongoose from 'mongoose';
 
-const UserSchema = new mongoose.Schema({
-    fullName: String,
-    addressWallet: String,
-    role: String,
-    cccd: String,
-    birthYear: String,
-    hometown: String,
-    hospital: String,
-    file: String,
-    txHash: String,
+const userSchema = new mongoose.Schema({
+    fullName: { type: String, required: true },
+    addressWallet: { type: String, required: true },
+    role: { type: String, required: true },
+    cccd: { type: String, required: true },
+    birthYear: { type: String, required: true },
+    hometown: { type: String, required: true },
+    hospital: { type: String, default: " " },
+    file: { type: String, default: "null" },
+    txHash: { type: String, required: true }
 });
 
-const User = mongoose.models.User || mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;

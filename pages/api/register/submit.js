@@ -22,16 +22,17 @@ export default async function handler(req, res) {
             console.log(temp)
             // Lưu thông tin vào MongoDB
             await User.insertMany({
-                fullName: temp.name,                 // Chuyển thành string
-                addressWallet: temp.addressWallet,   // Chuyển thành string
-                role: temp.role,                     // Chuyển role thành string
-                cccd: temp.cccd,                     // Chuyển CCCD thành string
-                birthYear: temp.birthYear,           // Chuyển birthYear thành string
-                hometown: temp.hometown,             // Chuyển quê quán thành string
-                hospital: temp.hospital ? (temp.hospital) : " ", // Nếu có hospital, chuyển thành string
-                file: temp.fileName ? temp.fileName : "null",  // Nếu có file, chuyển tên file thành string
-                txHash: temp.txHash,                 // Chuyển txHash thành string
+                fullName: String(temp.name),
+                addressWallet: String(temp.addressWallet),
+                role: String(temp.role),
+                cccd: String(temp.cccd),
+                birthYear: String(temp.birthYear),
+                hometown: String(temp.hometown),
+                hospital: temp.hospital ? String(temp.hospital) : " ",
+                file: temp.fileName ? String(temp.fileName) : "null",
+                txHash: String(temp.txHash)
             });
+
 
             res.status(200).json({ message: 'Đăng ký thành công' });
         } catch (error) {

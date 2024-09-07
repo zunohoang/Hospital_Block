@@ -118,16 +118,10 @@ export default function Register() {
                     <button onClick={signAndSendTransaction}>Ký và gửi giao dịch</button>
                 </div>
             )}
-
-            <button onClick={() => setStep(3)}>Tiếp theo</button>
-        </div>
-    );
-    const renderStep3 = () => (
-        <div>
             {transactionHash && (
-                            <div>
-                                <button onClick={submitRegistration}>Đăng ký</button>
-                            </div>
+                <div>
+                    <button onClick={submitRegistration}>Đăng ký</button>
+                </div>
             )}
         </div>
     );
@@ -145,6 +139,9 @@ export default function Register() {
         console.log(formDataToSend);
         const res = await fetch('/api/register/submit', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(formDataToSend),
         });
 
@@ -153,13 +150,12 @@ export default function Register() {
         } else {
             alert('Lỗi khi đăng ký!');
         }
-    };
+    }
 
     return (
         <div>
             {step === 1 && renderStep1()}
             {step === 2 && renderStep2()}
-            {step === 3 && renderStep3()}
         </div>
     );
 }
