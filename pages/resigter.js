@@ -1,6 +1,6 @@
-import {useState} from 'react';
-import {CardanoWallet, useWallet} from '@meshsdk/react';
-import {Blockfrost, Lucid} from "lucid-cardano";
+import { useState } from 'react';
+import { CardanoWallet, useWallet } from '@meshsdk/react';
+import { Blockfrost, Lucid } from "lucid-cardano";
 
 export default function Register() {
     const [step, setStep] = useState(1); // Bước hiện tại (1: nhập thông tin, 2: kết nối ví)
@@ -50,14 +50,14 @@ export default function Register() {
                 <option value="2">Bệnh viện</option>
             </select>
 
-            {role === 'bacsi' && (
+            {role === '1' && (
                 <>
                     <label>Bệnh viện làm việc:</label>
                     <input name="hospital" value={formData.hospital} onChange={handleInputChange} />
                 </>
             )}
 
-            {role === 'benhvien' && (
+            {role === '2' && (
                 <>
                     <label>Upload giấy tờ chứng minh:</label>
                     <input type="file" name="file" onChange={handleInputChange} />
@@ -110,7 +110,7 @@ export default function Register() {
         <div>
             <h2>Kết nối ví và ký giao dịch</h2>
 
-            <CardanoWallet/>
+            <CardanoWallet />
 
 
             {connected && (

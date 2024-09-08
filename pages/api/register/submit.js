@@ -2,6 +2,7 @@ import dbConnect from "/lib/mongoose";
 import fs from 'fs';
 import path from 'path';
 import User from "/models/User";
+import Hospital from "/models/Hospital";
 
 export default async function handler(req, res) {
     await dbConnect();
@@ -32,6 +33,17 @@ export default async function handler(req, res) {
                 file: temp.fileName ? String(temp.fileName) : "null",
                 txHash: String(temp.txHash)
             });
+
+            // benh vien
+            if (role == 2) {
+                await Hospital.insertMany({
+                    fullName: String(temp.name),
+                    addressWallet: String(temp.addressWallet),
+                    doctors: [],
+                    patients: [],
+                    active: false
+                });
+            }
 
 
             res.status(200).json({ message: 'Đăng ký thành công' });
