@@ -2,6 +2,8 @@ import dbConnect from '/lib/mongoose';
 import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
+import Doctor from '/models/Doctor';
+import Patient from '/models/Patient';
 
 /*
     Lấy danh sách bác sĩ: POST
@@ -26,7 +28,7 @@ export default async function handler(req, res) {
                 return res.status(400).json({ message: 'Admin không tồn tại' });
             }
 
-            const doctors = await Doctors.find();
+            const doctors = await Doctor.find();
             res.status(200).json({ doctors });
         } catch {
             console.error('Lỗi khi lấy danh sách bác sĩ:', error);

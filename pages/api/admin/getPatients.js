@@ -2,6 +2,8 @@ import dbConnect from '/lib/mongoose';
 import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
+import Doctor from '/models/Doctor';
+import Patient from '/models/Patient';
 
 /*
     Lấy danh sách bệnh nhân: POST

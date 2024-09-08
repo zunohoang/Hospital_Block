@@ -2,6 +2,8 @@ import dbConnect from '/lib/mongoose';
 import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
+import Doctor from '/models/Doctor';
+import Patient from '/models/Patient';
 
 /*
     Lay danh sach bac si cua benh vien
@@ -23,7 +25,7 @@ export default async function handler(req, res) {
                 return res.status(400).json({ success: false });
             }
 
-            const doctors = await User.find({ _id: { $in: hospital.doctors } });
+            const doctors = await Doctor.find({ _id: { $in: hospital.doctors } });
 
             res.status(200).json({ success: true, doctors });
         } catch (error) {

@@ -2,6 +2,7 @@ import dbConnect from '/lib/mongoose';
 import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
+import Doctor from '/models/Doctor';
 
 /*
     Them bac si vao benh vien
@@ -19,7 +20,7 @@ export default async function handler(req, res) {
         try {
             const { addressWalletDoctor, addressWalletHospital } = req.body;
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
-            const doctor = await User.findOne({ addressWallet: addressWalletDoctor });
+            const doctor = await Doctor.findOne({ addressWallet: addressWalletDoctor });
 
             if (!hospital || !doctor) {
                 return res.status(400).json({ success: false });

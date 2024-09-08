@@ -2,6 +2,8 @@ import dbConnect from "/lib/mongoose";
 import User from "/models/User";
 import Hospital from "/models/Hospital";
 import Admin from "/models/Admin";
+import Doctor from "/models/Doctor";
+import Patient from "/models/Patient";
 
 
 /*
