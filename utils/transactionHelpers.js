@@ -4,7 +4,7 @@ const blockfrostApiKey = 'previewbNG4bQlPHpt1pZmuO6gVik7fuh89pyZz';
 
 export async function checkTransactionReceived(txHash, senderAddress) {
     try {
-        const response = await axios.get(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${txHash}/utxos`, {
+        const response = await axios.get(`https://cardano-preview.blockfrost.io/api/v0/txs/${txHash}/utxos`, {
             headers: {
                 'project_id': blockfrostApiKey
             }

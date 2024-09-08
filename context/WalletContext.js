@@ -1,34 +1,33 @@
-// context/WalletContext.js
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { useWallet } from '@meshsdk/react';
 
 const WalletContext = createContext();
 
-export const WalletProvider = ({ children }) => {
-    const [walletConnected, setWalletConnected] = useState(false);
+export function WalletProvider({ children }) {
+    const { connected, wallet } = useWallet();
     const [walletAddress, setWalletAddress] = useState(null);
 
-    const connectWallet = (address) => {
-        setWalletConnected(true);
-        setWalletAddress(address);
-    };
-
-    const disconnectWallet = () => {
-        setWalletConnected(false);
-        setWalletAddress(null);
-    };
+    useEffect(() => {
+        async function fetchAddress() {
+            if (connected && wallet) {
+                try {
+                    const address = await wallet.getChangeAddress();
+                    setWalletAddress(address);
+                } catch (error) {
+                    console.error('Error fetching wallet address:', error);
+                }
+            }
+        }
+        fetchAddress();
+    }, [connected, wallet]);
 
     return (
-        <WalletContext.Provider
-            value={{
-                walletConnected,
-                walletAddress,
-                connectWallet,
-                disconnectWallet,
-            }}
-        >
+        <WalletContext.Provider value={{ connected, walletAddress }}>
             {children}
         </WalletContext.Provider>
     );
-};
+}
 
-export const useWalletContext = () => useContext(WalletContext);
+export function useWalletContext() {
+    return useContext(WalletContext);
+}

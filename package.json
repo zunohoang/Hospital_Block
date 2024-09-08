@@ -14,6 +14,7 @@
     "@meshsdk/core": "^1.7.2",
     "@meshsdk/react": "^1.7.2",
     "@mui/material": "^6.0.2",
+    "@pinata/sdk": "^2.1.0",
     "formidable": "^3.5.1",
     "lucid-cardano": "^0.10.10",
     "mongoose": "^8.6.1",

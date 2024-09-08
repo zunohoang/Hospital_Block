@@ -1,47 +1,56 @@
-import { CardanoWallet, useWallet } from '@meshsdk/react';
 import React, { useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import { CardanoWallet } from '@meshsdk/react';
+import { useWalletContext } from '/context/WalletContext'; // Đường dẫn đến WalletContext.js
+import axios from "axios";
 
 export default function Login() {
-    const { connected, wallet } = useWallet();
+    const { connected, walletAddress } = useWalletContext();
     const router = useRouter();
 
     useEffect(() => {
         async function getAddress() {
-            if (connected) {
+            if (connected && walletAddress) {
                 try {
-                    const address = await wallet.getChangeAddress();
-                    console.log('Address:', address);
                     const response = await axios.get('/api/checkAddressWallet', {
-                        params: { addressWallet: address },
+                        params: { addressWallet: walletAddress },
                     });
-
+                    console.log(response.data);
                     if (response.data) {
-                        console.log('User found:', response.data);
-                        if(response.data.role === 0) {
+                        if (response.data.role === "0") {
                             await router.push("/patient");
-                        } else if(response.data.role === 1) {
+                        } else if (response.data.role === "1") {
                             await router.push("/doctor");
-                        } else if(response.data.role === 2) {
+                        } else if (response.data.role === "2") {
+                            await router.push("/hospital");
+                        } else if (response.data.role === "3") {
                             await router.push("/admin");
                         } else {
-                            console.log("NONE ROLE");
+                            alert("Tài khoan chua dang kí, tao tai khoan moi");
+                            await router.push('/resigter')
                         }
                     } else {
-                        console.log("NONE USER");
+                        alert("Dang nhap that bai, dang nhap lai");
+                        await router.push('/login');
                     }
                 } catch (error) {
-                    console.error('Error connecting to MongoDB or fetching users:', error);
+                    alert("Dang nhap that bai, dang nhap lai");
+                    await router.push('/login');
                 }
             }
         }
         getAddress();
-    }, [connected]);
+    }, [connected, walletAddress]);
 
     return (
         <div>
-            <CardanoWallet />
+            <h1>Login</h1>
+            {!connected && (
+                <div>
+                    <p>Vui lòng kết nối ví của bạn:</p>
+                    <CardanoWallet />
+                </div>
+            )}
         </div>
     );
 }
