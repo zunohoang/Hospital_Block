@@ -9,7 +9,7 @@ import Patient from '/models/Patient';
     Lấy danh sách bệnh nhân: POST
     POST /api/admin/getPatients
     body: {
-        addressWalletAdmin: string
+        addressWallet: string
     }
 
 */
@@ -18,13 +18,13 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'POST') {
         try {
-            const addressWalletAdmin = req.body.addressWalletAdmin;
+            const addressWallet = req.body.addressWallet;
 
-            if (!addressWalletAdmin) {
+            if (!addressWallet) {
                 return res.status(400).json({ message: 'Thiếu thông tin' });
             }
 
-            if (!await Admin.exists({ addressWallet: addressWalletAdmin })) {
+            if (!await Admin.exists({ addressWallet: addressWallet })) {
                 return res.status(400).json({ message: 'Admin không tồn tại' });
             }
 

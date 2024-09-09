@@ -9,9 +9,9 @@ import Patient from '/models/Patient';
     Them patient cho bac si quan ly
     POST /api/hospital/addPatientToDoctor
     req.body = {
-        addressWalletPatient: String,
+        patientId: String,
         addressWalletHospital: String
-        addressWalletDoctor: String
+        doctorId: String
     }
 */
 
@@ -20,11 +20,11 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { addressWalletPatient, addressWalletHospital, addressWalletDoctor } = req.body;
+            const { patientId, addressWalletHospital, doctorId } = req.body;
 
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
-            const patient = await Patient.findOne({ addressWallet: addressWalletPatient });
-            const doctor = await Doctor.findOne({ addressWallet: addressWalletDoctor });
+            const patient = await Patient.findOne({ _id: patientId });
+            const doctor = await Doctor.findOne({ _id: doctorId });
 
             if (!hospital || !patient || !doctor) {
                 return res.status(400).json({ success: false });

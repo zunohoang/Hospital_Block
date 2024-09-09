@@ -8,7 +8,7 @@ import Doctor from '/models/Doctor';
     Them user vao benh vien
     POST /api/hospital/addPatient
     req.body = {
-        addressWalletPatient: String,
+        patientId: String,
         addressWalletHospital: String
     }
 */
@@ -18,10 +18,10 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { addressWalletPatient, addressWalletHospital } = req.body;
+            const { patientId, addressWalletHospital } = req.body;
 
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
-            const patient = await User.findOne({ addressWallet: addressWalletPatient });
+            const patient = await User.findOne({ _id: patientId });
 
             if (!hospital || !patient) {
                 return res.status(400).json({ success: false });

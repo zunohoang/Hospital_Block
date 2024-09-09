@@ -3,12 +3,13 @@ import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
 import Doctor from '/models/Doctor';
+import Patient from '/models/Patient';
 
 /*
     Lay patient cua doctor
     POST /api/hospital/getPatients
     req.body = {
-        addressWalletDoctor: String
+        addressWallet: String
     }
 */
 
@@ -17,19 +18,17 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { addressWalletDoctor } = req.body;
+            const addressWallet = req.body.addressWallet;
 
-            const doctors = await Doctor.find({ addressWallet: addressWalletDoctor });
+            const doctors = await Doctor.findOne({ addressWallet: addressWallet });
 
             if (!doctors) {
                 return res.status(400).json({ success: false });
             }
 
-            return res.status(200).json({ doctors });
+            const patient = await Patient.find({ _id: { $in: doctors.patients } });
 
-            if (!doctor) {
-                return res.status(400).json({ success: false });
-            }
+            return res.status(200).json({ patient });
         } catch (error) {
             res.status(400).json({ success: false });
         }

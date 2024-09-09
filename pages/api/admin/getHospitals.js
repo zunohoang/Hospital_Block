@@ -9,7 +9,7 @@ import Patient from '/models/Patient';
     Lấy danh sách bệnh viện: GET
     GET /api/admin/getHospitals
     body: { 
-        addressWalletAdmin: string
+        addressWallet: string
     }
 */
 
@@ -17,9 +17,9 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'GET') {
         try {
-            const addressWallet = req.body.addressWalletAdmin;
+            const addressWallet = req.body.addressWallet;
 
-            if (!addressWalletAdmin) {
+            if (!addressWallet) {
                 return res.status(400).json({ message: 'Thiếu thông tin' });
             }
 

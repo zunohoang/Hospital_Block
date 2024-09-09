@@ -8,12 +8,11 @@ import Patient from "/models/Patient";
 
 /*
     - Kích hoạt bệnh viện: POST
-    - Thông tin gửi lên: + Địa chỉ ví của bệnh viện: addressWalletHospital
-                         + Địa chỉ ví của admin: addressWalletAdmin
     POST /api/admin/activeHospital
     body: {
-        addressWalletAdmin: string,
-        addressWalletHospital: string
+        adminId: string,
+        hospitalId: string,
+        addressWallet: string
     }
 
 */
@@ -22,22 +21,31 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'POST') {
         try {
-            const addressWalletAdmin = req.body.addressWalletAdmin;
-            const addressWalletHospital = req.body.addressWalletHospital;
+            const adminId = req.body.adminId;
+            const hospitalId = req.body.hospitalId;
+            const addressWallet = req.body.addressWallet;
 
-            if (!addressWalletAdmin || !addressWalletHospital) {
+            if (!addressWallet) {
                 return res.status(400).json({ message: 'Thiếu thông tin' });
             }
 
-            if (!await Admin.exists({ addressWallet: addressWalletAdmin })) {
+            if (!await Admin.exists({ addressWallet: addressWallet })) {
                 return res.status(400).json({ message: 'Admin không tồn tại' });
             }
 
-            if (!await Hospital.exists({ addressWallet: addressWalletHospital })) {
+            if (!adminId || !hospitalId) {
+                return res.status(400).json({ message: 'Thiếu thông tin' });
+            }
+
+            if (!await Admin.exists({ _id: adminId })) {
+                return res.status(400).json({ message: 'Admin không tồn tại' });
+            }
+
+            if (!await Hospital.exists({ _id: hospitalId })) {
                 return res.status(400).json({ message: 'Bệnh viện không tồn tại' });
             }
 
-            await Hospital.updateOne({ addressWallet: addressWalletHospital }, { active: true });
+            await Hospital.updateOne({ _id: hospitalId }, { active: true });
 
             console.log('Thông tin kích hoạt bệnh viện:', req.body);
         } catch {

@@ -8,7 +8,7 @@ import Doctor from '/models/Doctor';
     Them bac si vao benh vien
     POST /api/hospital/activeDoctor
     req.body = {
-        addressWalletDoctor: String,
+        doctorId: String,
         addressWalletHospital: String
     }
 */
@@ -18,9 +18,9 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { addressWalletDoctor, addressWalletHospital } = req.body;
+            const { doctorId, addressWalletHospital } = req.body;
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
-            const doctor = await Doctor.findOne({ addressWallet: addressWalletDoctor });
+            const doctor = await Doctor.findOne({ _id: doctorId });
 
             if (!hospital || !doctor) {
                 return res.status(400).json({ success: false });
