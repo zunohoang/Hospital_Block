@@ -34,17 +34,6 @@ export default async function handler(req, res) {
                 txHash: String(temp.txHash)
             });
 
-            // benh vien
-            if (role == 2) {
-                await Hospital.insertMany({
-                    fullName: String(temp.name),
-                    addressWallet: String(temp.addressWallet),
-                    doctors: [],
-                    patients: [],
-                    active: false
-                });
-            }
-
 
             res.status(200).json({ message: 'Đăng ký thành công' });
         } catch (error) {
