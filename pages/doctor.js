@@ -1,16 +1,28 @@
-import { useState } from 'react';
-import { CardanoWallet } from '@meshsdk/react';
-import { uploadPDFtoIPFS } from '../services/UserService';  // Hàm upload PDF lên IPFS
-// import { mintToken } from '../services/TokenService';  // Hàm mint token
-import { Blockfrost, Lucid } from 'lucid-cardano';
+import { useState, useEffect } from 'react';
+import { CardanoWallet, useWallet } from '@meshsdk/react';
+import { uploadPDFtoIPFS } from '../services/UserService'; // Hàm upload PDF lên IPFS
+import { Lucid, Blockfrost, fromText } from "lucid-cardano";
 
 const API_URL = 'https://cardano-preview.blockfrost.io/api/v0';
+const blockfrostkey = "previewbNG4bQlPHpt1pZmuO6gVik7fuh89pyZz";
 
 export default function DoctorMintDashboard() {
     const [patientKey, setPatientKey] = useState('');  // Địa chỉ ví của bệnh nhân
     const [pdfFile, setPdfFile] = useState(null);  // File PDF để tải lên
     const [tokenName, setTokenName] = useState('');  // Tên token để mint
-    const [amount, setAmount] = useState(10);  // Số lượng token để mint
+    const [amount, setAmount] = useState(1);  // Số lượng token để mint, usually 1 for NFTs
+    const [lucid, setLucid] = useState(null); // Store Lucid instance
+
+    useEffect(() => {
+        const initializeLucid = async () => {
+            const lucidInstance = await Lucid.new(
+                new Blockfrost(API_URL, blockfrostkey),
+                "Preview"
+            );
+            setLucid(lucidInstance);
+        };
+        initializeLucid();
+    }, []);  // Initialize Lucid once when component mounts
 
     // Hàm xử lý khi người dùng chọn file PDF
     const handleFileChange = (e) => {
@@ -25,13 +37,67 @@ export default function DoctorMintDashboard() {
                 return;
             }
 
+            // Ensure Lucid is initialized
+            if (!lucid) {
+                alert("Lucid chưa được khởi tạo.");
+                return;
+            }
+
             // Tải PDF lên IPFS và lấy CID
             const ipfsCid = await uploadPDFtoIPFS(pdfFile);
             alert(`Tài liệu đã được tải lên IPFS với CID: ${ipfsCid}`);
 
-            // Mint token dựa trên tên token và số lượng nhập vào
-            const result = await mintToken(tokenName, parseInt(amount), patientKey);
-            alert(`Token đã được mint thành công!\nTx Hash: ${result.txHash}`);
+            // Lấy địa chỉ ví của người dùng từ Nami
+            const walletApi = await window.cardano.nami.enable();
+            lucid.selectWallet(walletApi);
+
+            const paymentCredential = lucid.utils.getAddressDetails(
+                await lucid.wallet.address(),
+            ).paymentCredential;
+
+            const mintingPolicy = lucid.utils.nativeScriptFromJson({
+                type: "all",
+                scripts: [
+                    { type: "sig", keyHash: paymentCredential.hash },
+                    {
+                        type: "before",
+                        slot: lucid.utils.unixTimeToSlot(Date.now() + 1000000),
+                    },
+                ],
+            });
+
+            const policyId = lucid.utils.mintingPolicyToId(mintingPolicy);
+
+            const unit = policyId + fromText(tokenName);  // Unique NFT identifier
+
+            // Add metadata for the NFT
+            const metadata = {
+                721: {
+                    [policyId]: {
+                        [tokenName]: {
+                            name: tokenName,
+                            description: "Medical record NFT",
+                            image: `ipfs://${ipfsCid}`,  // Link to the PDF file on IPFS
+                        },
+                    },
+                },
+            };
+
+            // Create the transaction to mint the NFT
+            const tx = await lucid.newTx()
+                .mintAssets({[unit]: BigInt(amount)})  // Use amount as BigInt, typically 1 for NFTs
+                .validTo(Date.now() + 200000)  // Time until the transaction expires
+                .attachMintingPolicy(mintingPolicy)
+                .attachMetadata(721, metadata)  // Attach metadata to the NFT
+                .payToAddress(patientKey, { [unit]: 1n })  // Send the NFT to the patient
+                .complete();
+
+            const signedTx = await tx.sign().complete();
+
+            const txHash = await signedTx.submit();
+
+            alert(`NFT successfully minted! Transaction hash: ${txHash}`);
+
         } catch (error) {
             alert('Có lỗi xảy ra khi tải file lên hoặc mint token.');
             console.error(error);
@@ -40,7 +106,7 @@ export default function DoctorMintDashboard() {
 
     return (
         <div>
-            <h1>Doctor Dashboard & Mint Token</h1>
+            <h1>Doctor Dashboard & Mint NFT</h1>
             <CardanoWallet /> {/* Thành phần để kết nối với ví Cardano */}
 
             <div>
@@ -79,61 +145,8 @@ export default function DoctorMintDashboard() {
             </div>
 
             <div>
-                <button onClick={handleSubmit}>Upload PDF and Mint Token</button>
+                <button onClick={handleSubmit}>Upload PDF and Mint NFT</button>
             </div>
         </div>
     );
-}
-
-
-// Hàm khởi tạo Lucid
-export async function initializeLucid() {
-    const blockfrost = new Blockfrost(API_URL, 'previewbNG4bQlPHpt1pZmuO6gVik7fuh89pyZz'); // Đặt API Key của bạn tại đây
-    const lucid = await Lucid.new(blockfrost, 'Preview');  // Sử dụng Testnet hoặc đổi thành Mainnet
-    return lucid;
-}
-
-// Hàm mint token
-export async function mintToken(tokenName, amount, patientKey) {
-    const lucid = await initializeLucid();  // Khởi tạo Lucid
-
-    const { paymentCredential } = lucid.utils.paymentCredentialOf(patientKey);  // Lấy paymentCredential từ địa chỉ ví
-    // Tạo Policy Script với keyHash của bệnh nhân
-    const mintingPolicy = lucid.utils.nativeScriptFromJson({
-        type: "all",
-        scripts: [
-            { type: "sig", keyHash: paymentCredential.hash },  // Sử dụng keyHash sau khi chuyển đổi từ địa chỉ ví
-            {
-                type: "before",
-                slot: lucid.utils.unixTimeToSlot(Date.now() + 1000000),  // Điều kiện thời gian
-            },
-        ],
-    });
-
-
-    const policyId = lucid.utils.mintingPolicyToId(mintingPolicy);  // Tạo Policy ID từ Policy Script
-
-    // Tạo giao dịch mint token
-    const tx = await lucid
-        .newTx()
-        .validTo(Date.now() + 200000)  // Thời gian hết hạn của giao dịch
-        .mintAssets({ [`${policyId}.${tokenName}`]: amount })  // Mint token với tên và số lượng
-        .attachMintingPolicy(policy)  // Gắn Policy Script vào giao dịch
-        .complete();  // Hoàn tất việc tạo giao dịch
-
-    // Ký và gửi giao dịch
-    const signedTx = await tx.sign().complete();
-
-    // Gửi giao dịch lên mạng Cardano
-    const txHash = await signedTx.submit();
-
-    console.log(`Minted ${amount} ${tokenName} tokens`);
-    console.log(`Transaction Hash: ${txHash}`);
-    console.log(`Policy ID: ${policyId}`);
-
-    return {
-        txHash,
-        policyId,
-        tokenName,
-    };
 }
