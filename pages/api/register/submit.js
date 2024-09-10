@@ -2,6 +2,7 @@ import dbConnect from "/lib/mongoose";
 import fs from 'fs';
 import path from 'path';
 import User from "/models/User";
+import Hospital from "/models/Hospital";
 
 export default async function handler(req, res) {
     await dbConnect();
