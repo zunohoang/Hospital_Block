@@ -23,6 +23,10 @@ export default async function handler(req, res) {
                 return res.status(400).json({ message: 'Thiếu thông tin' });
             }
 
+            if (!await Admin.exists({ addressWallet: addressWallet })) {
+                return res.status(400).json({ message: 'Admin không tồn tại' });
+            }
+
             const hospitals = await Hospital.find();
             res.status(200).json({ hospitals });
         } catch (error) {
