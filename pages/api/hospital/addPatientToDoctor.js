@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import dbConnect from '/lib/mongoose';
 import Hospital from '/models/Hospital';
 import User from '/models/User';
@@ -10,7 +11,7 @@ import Patient from '/models/Patient';
     POST /api/hospital/addPatientToDoctor
     req.body = {
         patientId: String,
-        addressWalletHospital: String
+        addressWalletHospital: String,
         doctorId: String
     }
 */
@@ -22,12 +23,34 @@ export default async function handler(req, res) {
         try {
             const { patientId, addressWalletHospital, doctorId } = req.body;
 
+            // Kiểm tra định dạng của patientId và doctorId
+            if (!mongoose.Types.ObjectId.isValid(patientId) || !mongoose.Types.ObjectId.isValid(doctorId)) {
+                return res.status(400).json({ success: false, message: 'Định dạng ID của bệnh nhân hoặc bác sĩ không hợp lệ' });
+            }
+
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
             const patient = await Patient.findOne({ _id: patientId });
             const doctor = await Doctor.findOne({ _id: doctorId });
 
-            if (!hospital || !patient || !doctor) {
-                return res.status(400).json({ success: false });
+            if (!hospital) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh viện' });
+            }
+
+            if (!patient) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh nhân' });
+            }
+
+            if (!doctor) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bác sĩ' });
+            }
+
+            // Đảm bảo rằng hospital.patients và doctor.patients là các mảng
+            if (!Array.isArray(hospital.patients)) {
+                hospital.patients = [];
+            }
+
+            if (!Array.isArray(doctor.patients)) {
+                doctor.patients = [];
             }
 
             if (!hospital.patients.includes(patient._id)) {
@@ -42,8 +65,12 @@ export default async function handler(req, res) {
             await hospital.save();
             await patient.save();
             await doctor.save();
+
+            res.status(200).json({ success: true, message: 'Bệnh nhân đã được thêm vào bác sĩ quản lý' });
         } catch (error) {
-            res.status(400).json({ success: false });
+            res.status(500).json({ success: false, message: 'Lỗi máy chủ', error: error.message });
         }
+    } else {
+        res.status(405).json({ success: false, message: 'Phương thức không được hỗ trợ' });
     }
 }

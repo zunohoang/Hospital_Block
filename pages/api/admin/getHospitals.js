@@ -15,7 +15,7 @@ import Patient from '/models/Patient';
 
 export default async function handler(req, res) {
     await dbConnect();
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         try {
             const addressWallet = req.body.addressWallet;
 

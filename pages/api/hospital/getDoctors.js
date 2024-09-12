@@ -19,17 +19,25 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
             const { addressWalletHospital } = req.query;
+
+            // Kiểm tra giá trị của addressWalletHospital
+            if (!addressWalletHospital) {
+                return res.status(400).json({ success: false, message: 'Địa chỉ ví của bệnh viện không hợp lệ' });
+            }
+
             const hospital = await Hospital.findOne({ addressWallet: addressWalletHospital });
 
             if (!hospital) {
-                return res.status(400).json({ success: false });
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh viện' });
             }
 
             const doctors = await Doctor.find({ _id: { $in: hospital.doctors } });
 
             res.status(200).json({ success: true, doctors });
         } catch (error) {
-            res.status(400).json({ success: false });
+            res.status(500).json({ success: false, message: 'Lỗi máy chủ', error: error.message });
         }
+    } else {
+        res.status(405).json({ success: false, message: 'Phương thức không được hỗ trợ' });
     }
 }
