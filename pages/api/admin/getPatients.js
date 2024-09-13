@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'POST') {
         try {
-            const addressWallet = req.body.addressWallet;
+            const addressWallet = req.headers['x-user-address'];
 
             if (!addressWallet) {
                 return res.status(400).json({ message: 'Thiếu thông tin' });
@@ -28,7 +28,10 @@ export default async function handler(req, res) {
                 return res.status(400).json({ message: 'Admin không tồn tại' });
             }
 
-            const patients = await Patient.find();
+            const patients = await Patient.find()
+                .populate('hospital', 'fullName')
+                .populate('doctor', 'fullName');
+
             res.status(200).json({ patients });
         } catch {
             console.error('Lỗi khi lấy danh sách bệnh nhân:', error);

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const hospitalSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    fullName: { type: String, required: true },
     addressWallet: { type: String, required: true },
     doctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
     patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }],

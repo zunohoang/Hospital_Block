@@ -31,19 +31,19 @@ export default function Register() {
         <div>
             <h2>Đăng ký</h2>
             <label>Tên người dùng:</label>
-            <input name="name" value={formData.name} onChange={handleInputChange} />
+            <input name="name" value={formData.name} onChange={handleInputChange} className='bg-white border-2' />
 
             <label>Số CCCD:</label>
-            <input name="cccd" value={formData.cccd} onChange={handleInputChange} />
+            <input name="cccd" value={formData.cccd} onChange={handleInputChange} className='bg-white border-2' />
 
             <label>Năm sinh:</label>
-            <input name="birthYear" value={formData.birthYear} onChange={handleInputChange} />
+            <input name="birthYear" value={formData.birthYear} onChange={handleInputChange} className='bg-white border-2' />
 
             <label>Quê quán:</label>
-            <input name="hometown" value={formData.hometown} onChange={handleInputChange} />
+            <input name="hometown" value={formData.hometown} onChange={handleInputChange} className='bg-white border-2' />
 
             <label>Vai trò:</label>
-            <select name="role" value={role} onChange={(e) => setRole(e.target.value)}>
+            <select name="role" value={role} onChange={(e) => setRole(e.target.value)} className='bg-white border-2'>
                 <option value="">Chọn vai trò</option>
                 <option value="0">Bệnh nhân</option>
                 <option value="1">Bác sĩ</option>
@@ -64,7 +64,7 @@ export default function Register() {
                 </>
             )}
 
-            <button onClick={() => setStep(2)}>Tiếp theo</button>
+            <button onClick={() => setStep(2)} className='bg-white border-2'>Tiếp theo</button>
         </div>
     );
 
