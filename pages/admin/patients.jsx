@@ -35,11 +35,9 @@ export default function Patient() {
             const res = await fetch('/api/admin/getPatients', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    addressWallet: localStorage.getItem('accessToken')
-                })
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                }
             });
             const data = await res.json();
             console.log(data);

@@ -43,7 +43,7 @@ export default function Login() {
                     const { data: { accessToken } } = await axios.post('/api/login/verifySignature', {
                         addressWallet: walletAddress,
                         signature: signedMessage,
-                        nonce
+                        nonce: nonce
                     });
 
                     // Lưu JWT vào localStorage

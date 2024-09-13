@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { generateNonce } from '@meshsdk/core';
 
 export default async function handler(req, res) {
     const { addressWallet } = req.query;
@@ -8,8 +8,8 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Tạo nonce mới bằng crypto
-        const nonce = crypto.randomBytes(16).toString('hex'); // Tạo nonce ngẫu nhiên an toàn
+
+        const nonce = generateNonce('Sign to login in to Mesh: ');
 
         res.status(200).json({ nonce });
     } catch (error) {

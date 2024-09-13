@@ -19,7 +19,8 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'POST') {
         try {
-            const { hospitalId, addressWallet } = req.body;
+            const { hospitalId } = req.body;
+            const addressWallet = req.headers['x-user-address'];
 
             if (!addressWallet) {
                 return res.status(400).json({ message: 'Thiếu thông tin: addressWallet' });
