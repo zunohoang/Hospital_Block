@@ -6,6 +6,7 @@ const hospitalSchema = new mongoose.Schema({
     addressWallet: { type: String, required: true },
     doctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', default: [] }],
     patients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient', default: [] }],
+    shareRecord: [{ type: String, default: '', required: true }],
     active: { type: Boolean, default: true, required: true }
 });
 

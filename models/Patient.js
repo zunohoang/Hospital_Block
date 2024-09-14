@@ -9,6 +9,7 @@ const patientSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true },
     hospital: { type: mongoose.Schema.Types.ObjectId, ref: "Hospital" },
     doctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
+    shareRecord: [{ type: String, default: '', required: true }],
     active: { type: Boolean, default: false, required: true }
 });
 
