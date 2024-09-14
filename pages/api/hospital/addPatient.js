@@ -44,6 +44,7 @@ export default async function handler(req, res) {
             }
             patient.hospital = hospital._id;
             patient.active = true;
+            
             await hospital.save();
             await patient.save();
 

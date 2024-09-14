@@ -6,7 +6,7 @@ import Doctor from '/models/Doctor';
 import Patient from '/models/Patient';
 
 /*
-    Lay patient cua doctor
+    Lay cac benh vien doctor co the yeu cau xin vao
     POST /api/hospital/getPatients
     req.body = {
         addressWallet: String
@@ -20,20 +20,16 @@ export default async function handler(req, res) {
         try {
             const addressWallet = req.headers['x-user-address'];
 
-            const doctor = await Doctor.findOne({ addressWallet: addressWallet });
+            const doctor = await Doctor.findOne({ addressWallet: addressWallet })
+                .populate('hospital', 'fullName');
 
             if (!doctor) {
                 return res.status(400).json({ success: false });
             }
 
-            console.log(doctor);
-            if (doctor.patients.length === 0) {
-                return res.status(200).json({ patient: [] });
-            }
+            const hospitals = await Hospital.find({ active: true })
 
-            const patients = await Patient.find({ _id: { $in: doctor.patients } }).populate('hospital', 'fullName').populate('doctor', 'fullName');
-
-            return res.status(200).json({ patients });
+            return res.status(200).json({ hospitals });
         } catch (error) {
             res.status(400).json({ success: false });
         }

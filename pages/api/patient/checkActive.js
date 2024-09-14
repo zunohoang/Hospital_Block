@@ -6,10 +6,10 @@ import Doctor from '/models/Doctor';
 import Patient from '/models/Patient';
 
 /*
-    Lay patient cua benh vien
-    POST /api/hospital/getPatients
+    kiem tra benh nhan co active hay khong
+    POST /api/hospital/getDoctorOfPatient
     req.body = {
-        addressWallet: String
+        userId: String
     }
 */
 
@@ -20,9 +20,18 @@ export default async function handler(req, res) {
         try {
             const addressWallet = req.headers['x-user-address'];
 
-            const doctor = await Doctor.findOne({ addressWallet: addressWallet });
+            const patient = await Patient.findOne({ addressWallet: addressWallet })
+                .populate('hospital', "fullName");
 
-            return res.status(200).json({ shareRecord: doctor.shareRecord });
+            if (!patient) {
+                return res.status(401).json({ success: false });
+            }
+
+            console.log(patient);
+
+            const hospitals = await Hospital.find({ active: true });
+
+            return res.status(200).json({ patient, hospitals });
 
         } catch (error) {
             res.status(400).json({ success: false });

@@ -3,10 +3,11 @@ import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
 import Doctor from '/models/Doctor';
-import Patient from '/models/Patient';
+import Patient from '/models/Patient'
+import Record from '/models/Record';
 
 /*
-    Lay patient cua doctor
+    Lay patient cua benh vien
     POST /api/hospital/getPatients
     req.body = {
         addressWallet: String
@@ -23,17 +24,14 @@ export default async function handler(req, res) {
             const doctor = await Doctor.findOne({ addressWallet: addressWallet });
 
             if (!doctor) {
-                return res.status(400).json({ success: false });
+                return res.status(401).json({ success: false });
             }
 
             console.log(doctor);
-            if (doctor.patients.length === 0) {
-                return res.status(200).json({ patient: [] });
-            }
+            const shareRecords = await Record.find({ userReceive_id: doctor._id });
+            console.log(shareRecords)
 
-            const patients = await Patient.find({ _id: { $in: doctor.patients } }).populate('hospital', 'fullName').populate('doctor', 'fullName');
-
-            return res.status(200).json({ patients });
+            return res.status(200).json({ shareRecords });
         } catch (error) {
             res.status(400).json({ success: false });
         }
