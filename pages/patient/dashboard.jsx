@@ -30,8 +30,8 @@ const getTokens = async () => {
 
 const fetchSharedRecords = () => {
     return [
-        { recordName: 'Shared Medical Record 1', sharedBy: 'User 123' },
-        { recordName: 'Shared Medical Record 2', sharedBy: 'User 456' },
+        { recordName: 'Shared Medical Record 1', sharedBy: 'User 123' , link: 'https://blue-implicit-felidae-194.mypinata.cloud/ipfs/QmV7SkZSQq2JwvuXxQGrBWTCmx3xsYmbBP1kvncjh18Tyg'},
+        { recordName: 'Shared Medical Record 2', sharedBy: 'User 456' , link: 'https://blue-implicit-felidae-194.mypinata.cloud/ipfs/QmV7SkZSQq2JwvuXxQGrBWTCmx3xsYmbBP1kvncjh18Tyg' },
     ];
 };
 
@@ -42,6 +42,8 @@ const Dashboard = () => {
     const [shareId, setShareId] = useState('');
     const [sharedRecords, setSharedRecords] = useState(fetchSharedRecords());
     const [mySharedRecords, setMySharedRecords] = useState([]);
+    const [spanContent, setSpanContent] = useState(''); // State to store content from span
+    const [nameContent, setnameContent] = useState(''); // State to store content from span
 
     useEffect(() => {
         const fetchTokens = async () => {
@@ -75,11 +77,19 @@ const Dashboard = () => {
 
     const handleRevoke = (recordId) => {
         setMySharedRecords(mySharedRecords.filter(record => record.id !== recordId));
-        alert(`Revoked sharing of record ID: ${recordId}`);
     };
 
-    const handleView = (recordId) => {
-        alert(`Viewing details of record ID: ${recordId}`);
+    const handleView = (recordId,link) => {
+        link = encodeUrl(link);
+        setSpanContent(link);
+    };
+
+    const encodeUrl = (url) => {
+        return btoa(url); // Mã hóa URL
+    };
+
+    const decodeUrl = (encodedUrl) => {
+        return atob(encodedUrl); // Giải mã URL
     };
 
     return (
@@ -92,138 +102,172 @@ const Dashboard = () => {
                     </div>
                 </header>
                 <main>
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <div className="space-y-4">
-                            {/* Medical Records List */}
-                            <div>
-                                <label htmlFor="medicalRecords" className="block text-sm font-medium text-gray-700">
-                                    Medical Records (Tokens)
-                                </label>
-                                <select
-                                    id="medicalRecords"
-                                    className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                                    value={selectedRecord?.id || ''}
-                                    onChange={(e) =>
-                                        setSelectedRecord(medicalRecords.find((record) => record.id === parseInt(e.target.value)))
-                                    }
-                                >
-                                    <option value="" disabled>Select a medical record</option>
-                                    {medicalRecords.map((record) => (
-                                        <option key={record.id} value={record.id}>
-                                            {record.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Input for Share ID */}
-                            <div>
-                                <label htmlFor="shareId" className="block text-sm font-medium text-gray-700">
-                                    Enter ID to Share With
-                                </label>
-                                <input
-                                    type="text"
-                                    id="shareId"
-                                    className="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                    value={shareId}
-                                    onChange={(e) => setShareId(e.target.value)}
-                                    placeholder="Enter User ID"
-                                />
-                            </div>
-
-                            {/* Share Button */}
-                            <div>
-                                <button
-                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    onClick={handleShare}
-                                >
-                                    Share
-                                </button>
-                            </div>
-
-                            {/* Table of Shared Medical Records */}
-                            <div>
-                                <h2 className="text-lg font-medium text-gray-900">Shared Medical Records</h2>
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Record Name
-                                        </th>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Shared By
-                                        </th>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                    {sharedRecords.map((record, index) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.recordName}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.sharedBy}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <button
-                                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-                                                    onClick={() => handleView(record.id)}
-                                                >
-                                                    View
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            {/* Table of My Shared Medical Records */}
-                            <div>
-                                <h2 className="text-lg font-medium text-gray-900">Records I Have Shared</h2>
-                                <table className="min-w-full divide-y divide-gray-200">
-                                    <thead className="bg-gray-50">
-                                    <tr>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Record Name
-                                        </th>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Shared With
-                                        </th>
-                                        <th scope="col"
-                                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Action
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody className="bg-white divide-y divide-gray-200">
-                                    {mySharedRecords.map((record, index) => (
-                                        <tr key={index}>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.recordName}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.sharedWith}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                <button
-                                                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
-                                                    onClick={() => handleRevoke(record.id)}
-                                                >
-                                                    Revoke
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-8">
+                        {/* Medical Records List */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg">
+                            <label htmlFor="medicalRecords" className="block text-sm font-medium text-gray-700 mb-2">
+                                Medical Records (Tokens)
+                            </label>
+                            <select
+                                id="medicalRecords"
+                                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                                value={selectedRecord?.id || ''}
+                                onChange={(e) =>
+                                    setSelectedRecord(medicalRecords.find((record) => record.id === parseInt(e.target.value)))
+                                }
+                            >
+                                <option value="" disabled>Select a medical record</option>
+                                {medicalRecords.map((record) => (
+                                    <option key={record.id} value={record.id}>
+                                        {record.name}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
+
+                        {/* Input for Share ID */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg">
+                            <label htmlFor="shareId" className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter ID to Share With
+                            </label>
+                            <input
+                                type="text"
+                                id="shareId"
+                                className="mt-1 block w-full shadow-sm sm:text-sm border border-gray-300 rounded-md"
+                                value={shareId}
+                                onChange={(e) => setShareId(e.target.value)}
+                                placeholder="Enter User ID"
+                            />
+                        </div>
+
+                        {/* Share Button */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg flex justify-end">
+                            <button
+                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                onClick={handleShare}
+                            >
+                                Share
+                            </button>
+                        </div>
+
+                        {/* Table of Shared Medical Records */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg">
+                            <h2 className="text-lg font-medium text-gray-900 mb-4">Shared Medical Records</h2>
+                            <table className="min-w-full divide-y divide-gray-200 border">
+                                <thead className="bg-gray-50">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Record Name
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Shared By
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                {sharedRecords.map((record, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.recordName}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.sharedBy}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button
+                                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                                                onClick={() => handleView(record.id, record.link)}
+                                            >
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Table of My Shared Medical Records */}
+                        <div className="bg-white p-6 shadow-lg rounded-lg">
+                            <h2 className="text-lg font-medium text-gray-900 mb-4">Records I Have Shared</h2>
+                            <table className="min-w-full divide-y divide-gray-200 border">
+                                <thead className="bg-gray-50">
+                                <tr>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Record Name
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Shared With
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                    >
+                                        Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                {mySharedRecords.map((record, index) => (
+                                    <tr key={index}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.recordName}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{record.sharedWith}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <button
+                                                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+                                                onClick={() => handleRevoke(record.id)}
+                                            >
+                                                Revoke
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Iframe for Record Health Details */}
+                        {spanContent && (
+                            <div className="bg-white p-6 shadow-lg rounded-lg text-center">
+                                <h3 className="text-xl font-bold text-green-600 mb-4">Record Health Details</h3>
+                                <div className="relative" style={{ paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                                    <iframe
+                                        src={decodeUrl(spanContent)}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '0',
+                                            left: '0',
+                                            width: '100%',
+                                            height: '100%',
+                                            border: 'none',
+                                            borderRadius: '10px',
+                                        }}
+                                        title={nameContent}
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </main>
             </div>
         </>
     );
+
 };
 
 export default Dashboard;
