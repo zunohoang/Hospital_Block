@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CardanoWallet, useWallet } from '@meshsdk/react';
-import { uploadPDFtoIPFS } from '../services/UserService'; // Hàm upload PDF lên IPFS
+import { uploadPDFtoIPFS } from '../../services/UserService'; // Hàm upload PDF lên IPFS
 import { Lucid, Blockfrost, fromText } from "lucid-cardano";
 
 const API_URL = 'https://cardano-preview.blockfrost.io/api/v0';
@@ -48,7 +48,7 @@ export default function DoctorMintDashboard({ selectedPatient }) {
             }
 
             // Tải PDF lên IPFS và lấy CID
-            const ipfsCid = await uploadPDFtoIPFS(pdfFile);
+            let ipfsCid = await uploadPDFtoIPFS(pdfFile);
             alert(`Tài liệu đã được tải lên IPFS với CID: ${ipfsCid}`);
 
             // Lấy địa chỉ ví của người dùng từ Nami
@@ -110,17 +110,12 @@ export default function DoctorMintDashboard({ selectedPatient }) {
 
     return (
         <div>
-            <h1>Doctor Dashboard & Mint NFT</h1>
-            <CardanoWallet /> {/* Thành phần để kết nối với ví Cardano */}
+            <h1>Create Health Record</h1>
 
             <div>
                 <label>
-                    <p>Patient Key (Địa chỉ ví bệnh nhân)</p>
-                    <input
-                        type="text"
-                        placeholder="Nhập địa chỉ ví của bệnh nhân"
-                        value={patientKey}
-                        onChange={(e) => setPatientKey(e.target.value)}
+                    <div
+                        onChange={(e) => setPatientKey(patientKey)}
                     />
                 </label>
             </div>
@@ -138,7 +133,7 @@ export default function DoctorMintDashboard({ selectedPatient }) {
 
             <div>
                 <label>
-                    <p>Token Name</p>
+                    <p>Name Health Record</p>
                     <input
                         type="text"
                         placeholder="Nhập tên token"

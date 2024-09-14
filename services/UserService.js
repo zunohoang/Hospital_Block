@@ -20,6 +20,7 @@ export async function uploadPDFtoIPFS(file) {
 
     try {
         const response = await axios.post(url, formData, options);
+        // https://blue-implicit-felidae-194.mypinata.cloud/ipfs/QmTA4k65xqUvur1FpLA6TX89e8dkgq8okHQoYT9TEHf8CR
         return response.data.IpfsHash;
     } catch (error) {
         console.error('Error uploading file to IPFS:', error);

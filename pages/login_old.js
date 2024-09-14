@@ -4,7 +4,7 @@ import { CardanoWallet } from '@meshsdk/react';
 import { useWalletContext } from '/context/WalletContext'; // Đường dẫn đến WalletContext.js
 import axios from "axios";
 
-export default function Login() {
+export default function Login_old() {
     const { connected, walletAddress } = useWalletContext();
     const router = useRouter();
 
