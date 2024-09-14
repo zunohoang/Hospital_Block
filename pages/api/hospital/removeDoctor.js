@@ -38,6 +38,11 @@ export default async function handler(req, res) {
             if (!doctor) {
                 return res.status(404).json({ success: false, message: 'Không tìm thấy bác sĩ' });
             }
+
+            hospital.doctors = hospital.doctors.filter(item => item.toString() !== doctorId);
+            await hospital.save();
+            doctor.patients = [];
+            doctor.hospital = null;
             doctor.active = false;
             await doctor.save();
 

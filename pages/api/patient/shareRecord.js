@@ -4,6 +4,7 @@ import User from '/models/User';
 import Admin from '/models/Admin';
 import Doctor from '/models/Doctor';
 import Patient from '/models/Patient';
+import Record from '/models/Record';
 
 /*
     share ho so benh an 
@@ -20,38 +21,47 @@ export default async function handler(req, res) {
         try {
             const addressWallet = req.headers['x-user-address'];
 
-            const { userId, recordMessage } = req.body;
+            const { userId, recordMessage, recordName } = req.body;
 
-            const isPatient = await Hospital.findOne({ addressWallet: addressWallet });
-            if (!isPatient) {
-                return res.status(400).json({ success: false });
+            const patient = await Patient.findOne({ addressWallet: addressWallet });
+
+            if (!patient) {
+                return res.status(401).json({ success: false });
             }
 
-            const user = await User.findById(userId);
-
-            if (!user) {
-                return res.status(404).json({ success: false, message: 'Không tìm thấy user' });
-            }
-
-            const doctor = await Doctor.findById(userId);
-            const patient = await Patient.findById(userId);
-            const hospital = await Hospital.findById(userId);
+            const doctor = await Doctor.findOne({ _id: userId });
 
             if (doctor) {
-                doctor.shareRecord = recordMessage;
-                await doctor.save();
+                const record = new Record({
+                    userSend_id: patient._id,
+                    userReceive_id: doctor._id,
+                    recordMessage: recordMessage,
+                    userSend_fullName: patient.fullName,
+                    recordName: recordName
+                });
+
+                await record.save();
+
+                return res.status(200).json({ success: true });
             }
 
-            if (patient) {
-                patient.shareRecord = recordMessage;
-                await patient.save();
+            const patient2 = await Patient.findOne({ _id: userId });
+
+            if (patient2) {
+                const record = new Record({
+                    userSend_id: patient._id,
+                    userReceive_id: patient2._id,
+                    recordMessage: recordMessage,
+                    userSend_fullName: patient.fullName,
+                    recordName: recordName
+                });
+
+                await record.save();
+
+                return res.status(200).json({ success: true });
             }
 
-            if (hospital) {
-                hospital.shareRecord = recordMessage;
-                await hospital.save();
-            }
-
+            return res.status(401).json({ success: false });
 
         } catch (error) {
             res.status(400).json({ success: false });

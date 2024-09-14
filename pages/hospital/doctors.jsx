@@ -63,12 +63,8 @@ export default function Admin() {
                 console.log(data);
                 if (data.success) {
                     setDoctors(
-                        doctors.map(doctor => {
-                            if (doctor._id === doctorId) {
-                                doctor.active = false;
-                            }
-                            return doctor;
-                        })
+                        //remove doctor from list
+                        doctors.filter(doctor => doctor._id !== doctorId)
                     );
                 }
             })

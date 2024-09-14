@@ -3,14 +3,13 @@ import Hospital from '/models/Hospital';
 import User from '/models/User';
 import Admin from '/models/Admin';
 import Doctor from '/models/Doctor';
-import Patient from '/models/Patient'
-import Record from '/models/Record';
+import Patient from '/models/Patient';
 
 /*
-    la record dc share
-    POST /api/hospital/getPatients
+    get doctor of patient
+    POST /api/hospital/getDoctorOfPatient
     req.body = {
-        addressWallet: String
+        userId: String
     }
 */
 
@@ -28,10 +27,14 @@ export default async function handler(req, res) {
             }
 
             console.log(patient);
-            const shareRecords = await Record.find({ userReceive_id: patient._id });
-            console.log(shareRecords)
 
-            return res.status(200).json({ shareRecords });
+            if (!patient.doctor) {
+                return res.status(200).json({ doctor: null });
+            }
+            const doctor = await Doctor.findById(patient.doctor._id);
+
+
+            return res.status(200).json({ doctor });
         } catch (error) {
             res.status(400).json({ success: false });
         }
