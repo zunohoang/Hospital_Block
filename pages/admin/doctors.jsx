@@ -19,7 +19,7 @@ const navigation = [
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Sign out', href: '/login' },
 ]
 
 function classNames(...classes) {
@@ -35,7 +35,7 @@ export default function Doctor() {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-            },
+            }
         })
             .then(res => res.json())
             .then(data => {

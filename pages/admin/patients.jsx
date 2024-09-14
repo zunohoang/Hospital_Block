@@ -1,6 +1,3 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import Link from "next/link";
 import { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 
@@ -19,12 +16,9 @@ const navigation = [
 const userNavigation = [
     { name: 'Your Profile', href: '#' },
     { name: 'Settings', href: '#' },
-    { name: 'Sign out', href: '#' },
+    { name: 'Sign out', href: '/login' },
 ]
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
 
 export default function Patient() {
 
@@ -95,10 +89,16 @@ export default function Patient() {
                                                         </div>
                                                     </th>
                                                     <td className="px-6 py-4">
-                                                        {patient.hospital.fullName}
+                                                        <div className="ps-0">
+                                                            <div className="text-base font-semibold">{patient.hospital.fullName}</div>
+                                                            <div className="font-normal text-gray-500">ID: {patient.hospital._id}</div>
+                                                        </div>
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        {patient.doctor}
+                                                        <div className="ps-0">
+                                                            <div className="text-base font-semibold">{patient.doctor.fullName}</div>
+                                                            <div className="font-normal text-gray-500">ID: {patient.doctor._id}</div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             ))
