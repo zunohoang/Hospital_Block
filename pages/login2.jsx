@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserWallet } from '@meshsdk/core'; // Import BrowserWallet từ Mesh.js
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import jwt from 'jsonwebtoken';
 
 export default function Login() {
     const router = useRouter();
@@ -24,7 +25,6 @@ export default function Login() {
             const wallet = await BrowserWallet.enable(id);
             setWallet(wallet);
 
-            // Lấy địa chỉ ví từ wallet
             const address = await wallet.getUsedAddresses();
             setWalletAddress(address[0]);
             setConnected(true);

@@ -6,19 +6,21 @@ import Doctor from '/models/Doctor';
 import Patient from '/models/Patient';
 
 /*
-    Lay danh sach bac si cua benh vien
+    Xoa bac si khoi benh vien
     GET /api/hospital/getDoctors
     req.query = {
-        addressWalletHospital: String
+        addressWallet: String,
+        doctorId: String,
     }
 */
 
 export default async function handler(req, res) {
     await dbConnect();
 
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         try {
             const addressWallet = req.headers['x-user-address'];
+            const { doctorId } = req.body;
 
             // Kiểm tra giá trị của addressWalletHospital
             if (!addressWallet) {
@@ -31,15 +33,16 @@ export default async function handler(req, res) {
                 return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh viện' });
             }
 
-            console.log(hospital);
+            // xoa benh nhan khoi danh sach benh nhan cua bac si
+            const doctor = await Doctor.findById(doctorId);
+            if (!doctor) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bác sĩ' });
+            }
+            doctor.active = false;
+            await doctor.save();
 
-            // Tìm danh sách các bác sĩ tương ứng
-            const doctors = await Doctor.find({ _id: { $in: hospital.doctors } })
-                .populate("hospital", "fullName")
-                .populate("patients", "fullName");
+            res.status(200).json({ success: true, message: 'Xóa bác sĩ thành công' });
 
-
-            res.status(200).json({ success: true, doctors });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Lỗi máy chủ', error: error.message });
         }
