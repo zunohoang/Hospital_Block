@@ -33,11 +33,9 @@ export default function Doctor() {
         fetch('/api/admin/getDoctors', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
             },
-            body: JSON.stringify({
-                addressWallet: localStorage.getItem("accessToken")
-            })
         })
             .then(res => res.json())
             .then(data => {

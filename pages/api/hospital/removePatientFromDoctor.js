@@ -6,19 +6,22 @@ import Doctor from '/models/Doctor';
 import Patient from '/models/Patient';
 
 /*
-    Lay danh sach bac si cua benh vien
+    Xoa benh nhan khoi bac sĩ
     GET /api/hospital/getDoctors
     req.query = {
-        addressWalletHospital: String
+        doctorId: String,
+        patientId: String,
     }
 */
 
 export default async function handler(req, res) {
     await dbConnect();
 
-    if (req.method === 'GET') {
+    if (req.method === 'POST') {
         try {
             const addressWallet = req.headers['x-user-address'];
+
+            const { doctorId, patientId } = req.body;
 
             // Kiểm tra giá trị của addressWalletHospital
             if (!addressWallet) {
@@ -31,15 +34,29 @@ export default async function handler(req, res) {
                 return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh viện' });
             }
 
-            console.log(hospital);
+            // xoa benh nhan khoi danh sach benh nhan cua bac si
+            const doctor = await Doctor.findById(doctorId);
+            if (!doctor) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bác sĩ' });
+            }
 
-            // Tìm danh sách các bác sĩ tương ứng
-            const doctors = await Doctor.find({ _id: { $in: hospital.doctors } })
-                .populate("hospital", "fullName")
-                .populate("patients", "fullName");
+            const patient = await Patient.findById(patientId);
+            if (!patient) {
+                return res.status(404).json({ success: false, message: 'Không tìm thấy bệnh nhân' });
+            }
 
+            const index = doctor.patients.indexOf(patient._id);
+            if (index > -1) {
+                doctor.patients.splice(index, 1);
+            }
+            patient.doctor = null;
+            patient.active = false;
 
-            res.status(200).json({ success: true, doctors });
+            await doctor.save();
+            await patient.save();
+
+            res.status(200).json({ success: true, message: 'Xóa bệnh nhân thành công' });
+
         } catch (error) {
             res.status(500).json({ success: false, message: 'Lỗi máy chủ', error: error.message });
         }
