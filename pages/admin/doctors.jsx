@@ -35,10 +35,7 @@ export default function Doctor() {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-            // body: JSON.stringify({
-            //     addressWallet: localStorage.getItem("accessToken")
-            // })
+            }
         })
             .then(res => res.json())
             .then(data => {

@@ -8,7 +8,6 @@ import Patient from '/models/Patient';
     POST /api/hospital/addPatient
     req.body = {
         patientId: String,
-        addressWalletHospital: String
     }
 */
 
@@ -16,7 +15,8 @@ export default async function handler(req, res) {
     await dbConnect();
     if (req.method === 'POST') {
         try {
-            const { patientId, addressWalletHospital } = req.body;
+            const { patientId } = req.body;
+            const addressWalletHospital = req.headers['x-user-address'];
 
             // Kiểm tra định dạng của patientId
             if (!mongoose.Types.ObjectId.isValid(patientId)) {
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
                 hospital.patients.push(patient._id);
             }
             patient.hospital = hospital._id;
-
+            patient.active = true;
             await hospital.save();
             await patient.save();
 

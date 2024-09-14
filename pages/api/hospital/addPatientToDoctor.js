@@ -21,7 +21,8 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { patientId, addressWalletHospital, doctorId } = req.body;
+            const addressWalletHospital = req.headers['x-user-address'];
+            const { patientId, doctorId } = req.body;
 
             // Kiểm tra định dạng của patientId và doctorId
             if (!mongoose.Types.ObjectId.isValid(patientId) || !mongoose.Types.ObjectId.isValid(doctorId)) {
@@ -58,6 +59,7 @@ export default async function handler(req, res) {
             }
             patient.hospital = hospital._id;
             patient.doctor = doctor._id;
+            patient.active = true;
             if (!doctor.patients.includes(patient._id)) {
                 doctor.patients.push(patient._id);
             }
@@ -66,7 +68,7 @@ export default async function handler(req, res) {
             await patient.save();
             await doctor.save();
 
-            res.status(200).json({ success: true, message: 'Bệnh nhân đã được thêm vào bác sĩ quản lý' });
+            res.status(200).json({ success: true, message: 'Bệnh nhân đã được thêm vào bác sĩ quản lý', patient });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Lỗi máy chủ', error: error.message });
         }

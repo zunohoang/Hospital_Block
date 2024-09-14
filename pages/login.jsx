@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserWallet } from '@meshsdk/core'; // Import BrowserWallet từ Mesh.js
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import jwt from 'jsonwebtoken';
 
 export default function Login() {
     const router = useRouter();
@@ -24,7 +25,6 @@ export default function Login() {
             const wallet = await BrowserWallet.enable(id);
             setWallet(wallet);
 
-            // Lấy địa chỉ ví từ wallet
             const address = await wallet.getUsedAddresses();
             setWalletAddress(address[0]);
             setConnected(true);
@@ -67,13 +67,13 @@ export default function Login() {
                     });
                     console.log(response.data);
                     if (response.data) {
-                        if (response.data.role === "0") {
+                        if (response.data.role == "0") {
                             await router.push("/patient/dashboard");
-                        } else if (response.data.role === "1") {
+                        } else if (response.data.role == "1") {
                             await router.push("/doctor/dashboard");
-                        } else if (response.data.role === "2") {
+                        } else if (response.data.role == "2") {
                             await router.push("/hospital/dashboard");
-                        } else if (response.data.role === "3") {
+                        } else if (response.data.role == "3") {
                             await router.push("/admin/dashboard");
                         } else {
                             alert("Tài khoan chua dang kí, tao tai khoan moi");

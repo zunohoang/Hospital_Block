@@ -9,8 +9,7 @@ import Doctor from '/models/Doctor';
     Them bac si vao benh vien
     POST /api/hospital/activeDoctor
     req.body = {
-        doctorId: String,
-        addressWalletHospital: String
+        doctorId: String
     }
 */
 
@@ -19,7 +18,8 @@ export default async function handler(req, res) {
 
     if (req.method === 'POST') {
         try {
-            const { doctorId, addressWalletHospital } = req.body;
+            const { doctorId } = req.body;
+            const addressWalletHospital = req.headers['x-user-address'];
 
             // Kiểm tra định dạng của doctorId
             if (!mongoose.Types.ObjectId.isValid(doctorId)) {
@@ -46,6 +46,7 @@ export default async function handler(req, res) {
                 hospital.doctors.push(doctor._id);
             }
             doctor.hospital = hospital._id;
+            doctor.active = true;
 
             await hospital.save();
             await doctor.save();
