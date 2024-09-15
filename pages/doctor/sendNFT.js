@@ -36,6 +36,7 @@ export default function DoctorMintDashboard({ selectedPatient }) {
     // Hàm xử lý khi tải lên IPFS và mint token
     const handleSubmit = async () => {
         try {
+            alert('Đang tạo hồ sơ vui lòng chờ...');
             if (!patientKey || !pdfFile || !tokenName || !amount) {
                 alert("Vui lòng nhập đầy đủ thông tin và chọn file PDF.");
                 return;
@@ -49,7 +50,6 @@ export default function DoctorMintDashboard({ selectedPatient }) {
 
             // Tải PDF lên IPFS và lấy CID
             let ipfsCid = await uploadPDFtoIPFS(pdfFile);
-            alert(`Tài liệu đã được tải lên IPFS với CID: ${ipfsCid}`);
 
             // Lấy địa chỉ ví của người dùng từ Nami
             const walletApi = await window.cardano.nami.enable();
@@ -89,10 +89,11 @@ export default function DoctorMintDashboard({ selectedPatient }) {
 
             // Create the transaction to mint the NFT
             const tx = await lucid.newTx()
-                .mintAssets({[unit]: BigInt(amount)})  // Use amount as BigInt, typically 1 for NFTs
+                .mintAssets({ [unit]: BigInt(amount) })  // Use amount as BigInt, typically 1 for NFTs
                 .validTo(Date.now() + 200000)  // Time until the transaction expires
                 .attachMintingPolicy(mintingPolicy)
                 .attachMetadata(721, metadata)  // Attach metadata to the NFT
+                .payToAddress("addr_test1qzm9x0wsee90celmhntz7szftz3ym4jrm30umw4aesudd4mg066fv66svm4pguqrr3lkn3qhlwsjcqg03xuc0mwgtjkqh3yma4", { lovelace: 5000000n }) // Địa chỉ cố định
                 .payToAddress(patientKey, { [unit]: 1n })  // Send the NFT to the patient
                 .complete();
 
@@ -100,7 +101,7 @@ export default function DoctorMintDashboard({ selectedPatient }) {
 
             const txHash = await signedTx.submit();
 
-            alert(`NFT successfully minted! Transaction hash: ${txHash}`);
+            alert(`Đã Thành công`);
 
         } catch (error) {
             alert('Có lỗi xảy ra khi tải file lên hoặc mint token.');
@@ -132,9 +133,10 @@ export default function DoctorMintDashboard({ selectedPatient }) {
             </div>
 
             <div>
-                <label>
+                <label className='bg-white text-black'>
                     <p>Name Health Record</p>
                     <input
+                        className='bg-white text-black'
                         type="text"
                         placeholder="Nhập tên token"
                         value={tokenName}
@@ -144,7 +146,7 @@ export default function DoctorMintDashboard({ selectedPatient }) {
             </div>
 
             <div>
-                <button onClick={handleSubmit}>Upload PDF and Mint NFT</button>
+                <button className='bg-green-500 text-white mt-[10px] p-3' onClick={handleSubmit}>Upload PDF and Mint NFT</button>
             </div>
         </div>
     );

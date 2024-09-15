@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             }
 
             console.log(patient);
-            const shareRecords = await Record.find({ userReceive_id: patient._id });
+            const shareRecords = await Record.find({ userSend_id: patient._id });
             console.log(shareRecords)
 
             var listRecord = [];
@@ -43,7 +43,9 @@ export default async function handler(req, res) {
                 listRecord.push({
                     recordName: record.recordName,
                     sharedBy: record.userSend_fullName,
-                    link: record.message
+                    link: record.message,
+                    recordId: record._id,
+                    sharedWith: record.userReceive_id
                 });
             });
 

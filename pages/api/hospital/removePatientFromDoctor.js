@@ -50,7 +50,7 @@ export default async function handler(req, res) {
                 doctor.patients.splice(index, 1);
             }
             patient.doctor = null;
-            patient.active = false;
+            patient.active = true;
 
             await doctor.save();
             await patient.save();

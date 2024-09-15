@@ -144,7 +144,7 @@ export default function Login() {
                                 <svg width={3} height={3} viewBox="0 0 2 2" aria-hidden="true" className="fill-gray-900">
                                     <circle r={1} cx={1} cy={1} />
                                 </svg>
-                                <div className="text-gray-600">Nếu chưa có tài khoản <a>Đăng kí</a></div>
+                                <div className="text-gray-600">Nếu chưa có tài khoản <a href="register">Đăng kí</a></div>
                             </div>
                         </figcaption>
                     </figure>

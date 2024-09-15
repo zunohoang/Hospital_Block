@@ -90,7 +90,7 @@ function PatientDashboard() {
                                                         {patient.doctor.fullName}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <button onClick={() => handleOpenDialog({ fullName: patient.fullName, _id: patient.addressQ })} className="text-blue-600 dark:text-blue-500 hover:underline">
+                                                        <button onClick={() => handleOpenDialog({ fullName: patient.fullName, _id: patient.addressWallet })} className="text-blue-600 dark:text-blue-500 hover:underline">
                                                             Go
                                                         </button>
                                                     </td>
@@ -98,7 +98,7 @@ function PatientDashboard() {
                                             ) : null
                                         ))
                                     }
-                                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                             <div className="ps-3">
                                                 <div className="text-base font-semibold">Bệnh nhân mẫu</div>
@@ -112,7 +112,7 @@ function PatientDashboard() {
                                                 Go
                                             </button>
                                         </td>
-                                    </tr>
+                                    </tr> */}
                                 </tbody>
                             </table>
                         </div>
