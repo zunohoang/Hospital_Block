@@ -14,11 +14,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: false },
     { name: 'Doctors', href: 'doctors', current: true },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -114,40 +111,6 @@ export default function Doctor() {
                                                 </tr>
                                             ))
                                         }
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">Bác sĩ mẫu</div>
-                                                    <div className="font-normal text-gray-500">ID: 3r43redfcsdg4te4rgfvdgrt</div>
-                                                </div>
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                Bệnh viện mẫu
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                353
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-medium text-blue-600 dark:text-blue-500">Confirmed</p>
-                                            </td>
-                                        </tr>
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">Bác sĩ mẫu</div>
-                                                    <div className="font-normal text-gray-500">ID: 3r43redfcsdg4te4rgfvdgrt</div>
-                                                </div>
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                Bệnh viện mẫu
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                353
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-medium text-red-500 dark:text-blue-500 hover:underline">Unconfirmed</p>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

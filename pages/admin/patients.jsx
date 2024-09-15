@@ -7,15 +7,12 @@ const user = {
     imageUrl: 'https://cdn-icons-png.freepik.com/512/219/219986.png',
 }
 const navigation = [
-    { name: 'Dashboard', href: 'dashboard', current: false },
+    { name: 'Dashboard', href: 'dashboard', current: true },
     { name: 'Hospitals', href: 'hospitals', current: false },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: true },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -103,20 +100,6 @@ export default function Patient() {
                                                 </tr>
                                             ))
                                         }
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">Bệnh nhân mẫu</div>
-                                                    <div className="font-normal text-gray-500">ID: 3r43redfcsdg4te4rgfvdgrt</div>
-                                                </div>
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                Bệnh viện mẫu
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                Bác sĩ mẫu
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

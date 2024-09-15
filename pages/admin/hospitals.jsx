@@ -15,11 +15,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: true },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -158,23 +155,6 @@ export default function Dashboard() {
                                                 ) : ""
                                             ))
                                         }
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">Bệnh viện mẫu</div>
-                                                    <div className="font-normal text-gray-500">ID: 3r43redfcsdg4te4rgfvdgrt</div>
-                                                </div>
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                24
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                353
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</p>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -220,20 +200,6 @@ export default function Dashboard() {
                                                 ) : ""
                                             ))
                                         }
-                                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                            <th scope="row" className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                                <div className="ps-3">
-                                                    <div className="text-base font-semibold">Bệnh viện mẫu</div>
-                                                    <div className="font-normal text-gray-500">ID: 3r43redfcsdg4te4rgfvdgrt</div>
-                                                </div>
-                                            </th>
-                                            <td className="px-6 py-4">
-                                                <a>URL</a>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <p className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Confirm</p>
-                                            </td>
-                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

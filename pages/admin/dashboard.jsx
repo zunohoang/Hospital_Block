@@ -10,10 +10,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: false },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -40,11 +38,6 @@ export default function Admin() {
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
                     </div>
                 </header>
-                <main>
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        +sdfds
-                    </div>
-                </main>
             </div>
         </>
     )
