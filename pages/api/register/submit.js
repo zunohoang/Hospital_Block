@@ -30,7 +30,7 @@ export default async function handler(req, res) {
                 txHash: String(temp.txHash)
             });
 
-            if (role == "0") { // them benh nhan
+            if (temp.role == "0") { // them benh nhan
                 await Patient.insertMany({
                     fullName: String(temp.name),
                     addressWallet: String(temp.addressWallet),
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
                     shareRecord: [],
                     active: false
                 });
-            } else if (role == "1") {
+            } else if (temp.role == "1") {
                 // them bac si
                 await Doctor.insertMany({
                     fullName: String(temp.name),
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
                     active: false,
                     shareRecord: []
                 });
-            } else if (role == "2") {
+            } else if (temp.role == "2") {
                 // them benh vien
                 await Hospital.insertMany({
                     fullName: String(temp.name),
