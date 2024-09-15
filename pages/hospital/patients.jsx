@@ -7,13 +7,11 @@ const user = {
     imageUrl: 'https://cdn-icons-png.freepik.com/512/219/219986.png',
 }
 const navigation = [
-    { name: 'Dashboard', href: 'dashboard', current: false },
+    { name: 'Profile', href: 'dashboard', current: false },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: true },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 

@@ -9,12 +9,10 @@ const user = {
 const navigation = [
     { name: 'Dashboard', href: 'dashboard', current: true },
     { name: 'Hospitals', href: 'hospitals', current: false },
-    { name: 'Doctors', href: 'doctors', current: false },
+    { name: 'Profile', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 

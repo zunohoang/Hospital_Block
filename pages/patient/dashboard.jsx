@@ -12,10 +12,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: false },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -84,7 +82,7 @@ const Dashboard = () => {
             // Assuming each token has an assetName and quantity (or similar fields)
             const medicalRecords = tokens?.map((token, index) => ({
                 id: index + 1, // generate an ID for each token
-                name: `${token.assetName} - Quantity: ${token.quantity}` // format the token info
+                name: `${token.assetName}` // format the token info
             }));
             setMedicalRecords(medicalRecords);
         };
