@@ -22,10 +22,8 @@ const Patients = () => {
         { name: 'Hospitals', href: 'hospitals', current: false },
         { name: 'Doctors', href: 'doctors', current: false },
         { name: 'Patients', href: 'patients', current: true },
-        { name: 'About', href: 'about', current: false },
     ];
     const userNavigation = [
-        { name: 'Your Profile', href: '#' },
         { name: 'Sign out', href: '/login' },
     ];
 
@@ -205,7 +203,7 @@ const Patients = () => {
         <>
             <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
             <div style={{ width: '80%', margin: '0 auto', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', fontFamily: 'Arial, sans-serif' }}>
-                <h2 style={{ textAlign: 'center', color: '#333', fontSize: '24px', marginBottom: '20px' }}>List of Tokens</h2>
+                <h2 style={{ textAlign: 'center', color: '#333', fontSize: '24px', marginBottom: '20px' }}>Danh sách hồ sơ bệnh án</h2>
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
                     <thead>
                     <tr>

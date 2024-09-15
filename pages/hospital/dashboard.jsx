@@ -6,13 +6,11 @@ const user = {
     imageUrl: 'https://cdn-icons-png.freepik.com/512/219/219986.png',
 }
 const navigation = [
-    { name: 'Dashboard', href: 'dashboard', current: true },
+    { name: 'Profile', href: 'dashboard', current: true },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -23,32 +21,42 @@ function classNames(...classes) {
 export default function Admin() {
     return (
         <>
-            {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
+            <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
             <div className="min-h-full">
-                <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
-
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-                    </div>
-                </header>
                 <main>
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        {/* Replace with your content */}
-                        <div className="px-4 py-6 sm:px-0">
-                            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
+                    <div className="bg-gray-200 font-sans h-screen w-full flex flex-col justify-center items-center">
+                        {/* Logo Bệnh viện */}
+                        <div className="w-32 h-32 rounded-full overflow-hidden mt-8">
+                            <img
+                                className="object-cover w-full h-full"
+                                src="https://via.placeholder.com/150" // Đặt link logo bệnh viện của bạn ở đây
+                                alt="Hospital Logo"
+                            />
                         </div>
-                        {/* /End replace */}
+
+                        {/* Thông tin Bệnh viện */}
+                        <div className="card w-full mt-6 mx-auto bg-white shadow-xl hover:shadow p-6 max-w-2xl">
+                            <div className="text-center text-3xl font-bold mb-4">
+                                City Health Clinic
+                            </div>
+                            <div className="grid grid-cols-1 gap-6">
+                                <div className="py-2">
+                                    <strong>Number of Doctors:</strong> 45
+                                </div>
+                                <div className="py-2">
+                                    <strong>Number of Patients Managed:</strong> 2000
+                                </div>
+                                <div className="py-2">
+                                    <strong>ID:</strong> 12345ABC
+                                </div>
+                                <div className="py-2">
+                                    <strong>Operating Hours:</strong> Mon-Fri: 8:00 AM - 5:00 PM
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </main>
             </div>
         </>
-    )
+    );
 }

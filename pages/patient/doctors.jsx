@@ -14,11 +14,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: false },
     { name: 'Doctors', href: 'doctors', current: true },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -58,24 +55,45 @@ export default function Doctor() {
         ```
       */}
             <div className="min-h-full">
-                <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
-
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-                    </div>
-                </header>
+                <Navbar user={user} navigation={navigation} userNavigation={userNavigation}/>
                 <main>
-                    {
-                        doctor != null ? (
-                            <div>
-                                <h2>Bác sĩ sẽ phụ trách bạn là:</h2>
-                                <p>{doctor.fullName}</p>
-                                <p>{doctor._id}</p>
-                            </div>
-                        ) : (<p>Đang chờ bệnh viện sắp xếp bạn cho bác sĩ nào</p>)
-                    }
+                    {/* Phần hiển thị thông tin bác sĩ */}
+                    <div className="bg-gray-200 font-sans h-screen w-full flex flex-col justify-center items-center">
+                        <div className="card w-full mx-auto bg-white shadow-xl hover:shadow p-6 max-w-lg text-center">
+                            {doctor != null ? (
+                                <>
+                                    <h2 className="text-xl font-bold mb-4">Bác sĩ sẽ phụ trách bạn là:</h2>
+                                    <div className="text-2xl font-medium text-gray-800 mb-2">
+                                        {doctor.fullName}
+                                    </div>
+                                    <div className="text-sm text-gray-600">
+                                        {doctor._id}
+                                    </div>
+                                    {/* Thêm ảnh nếu cần */}
+                                    <div className="mt-4">
+                                        <img
+                                            className="w-24 h-24 rounded-full mx-auto"
+                                            src="/doctor.jpg"
+                                            alt="Doctor"
+                                        />
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <p>Đang chờ bệnh viện sắp xếp bạn cho bác sĩ nào</p>
+                                    <div className="mt-4">
+                                        <img
+                                        className="w-24 h-24 rounded-full mx-auto"
+                                        src="/doctor.jpg"
+                                        alt="Doctor"
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </main>
+
             </div>
         </>
     )

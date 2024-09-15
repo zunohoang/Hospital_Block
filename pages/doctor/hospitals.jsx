@@ -16,11 +16,8 @@ const navigation = [
     { name: 'Hospitals', href: 'hospitals', current: true },
     { name: 'Doctors', href: 'doctors', current: false },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 

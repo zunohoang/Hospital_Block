@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Getinfofromweb from './getinfofromweb'; // Adjust the path if necessary
+import Getinfofromweb from './Getinfofromweb'; // Adjust the path if necessary
 
 const TestComponent = () => {
     const [token, setToken] = useState('token12345'); // Replace with an actual token or use state for dynamic input

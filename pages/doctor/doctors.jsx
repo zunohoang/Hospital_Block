@@ -12,13 +12,10 @@ const user = {
 const navigation = [
     { name: 'Dashboard', href: 'dashboard', current: false },
     { name: 'Hospitals', href: 'hospitals', current: false },
-    { name: 'Doctors', href: 'doctors', current: true },
+    { name: 'Profile', href: 'doctors', current: true },
     { name: 'Patients', href: 'patients', current: false },
-    { name: 'About', href: 'about', current: false },
 ]
 const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
     { name: 'Sign out', href: '/login' },
 ]
 
@@ -60,41 +57,46 @@ export default function Doctor() {
         ```
       */}
             <div className="min-h-full">
-                <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
+                <Navbar user={user} navigation={navigation} userNavigation={userNavigation}/>
 
-                <header className="bg-white shadow">
-                    <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-                    </div>
-                </header>
-                <main>
-                    <div className="bg-gray-200 font-sans h-screen w-full flex flex-row justify-center items-center">
-                        <div className="card w-96 mx-auto bg-white  shadow-xl hover:shadow">
-                            <img className="w-32 mx-auto rounded-full -mt-20 border-8 border-white"
-                                 src="https://avatars.githubusercontent.com/u/67946056?v=4" alt=""/>
-                            <div className="text-center mt-2 text-3xl font-medium">Ajo Alex</div>
-                            <div className="text-center mt-2 font-light text-sm">@devpenzil</div>
-                            <div className="text-center font-normal text-lg">Kerala</div>
-                            <div className="px-6 text-center mt-2 font-light text-sm">
-                                <p>
-                                    Front end Developer, avid reader. Love to take a long walk, swim
-                                </p>
+                <div className="min-h-full">
+                    <header className="bg-white shadow">
+                        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                                Thông tin cá nhân
+                            </h1>
+                        </div>
+                    </header>
+                    <main>
+                        <div
+                            className="bg-gray-200 font-sans h-screen w-full flex flex-col justify-center items-center">
+                            {/* Phần Avatar trên cùng */}
+                            <div className="w-48 h-48 rounded-full overflow-hidden mt-8">
+                                <img
+                                    className="object-cover w-full h-full"
+                                    src="https://avatars.githubusercontent.com/u/67946056?v=4"
+                                    alt="Avatar"
+                                />
                             </div>
-                            <hr className="mt-8"/>
-                            <div className="flex p-4">
-                                <div className="w-1/2 text-center">
-                                    <span className="font-bold">1.8 k</span> Followers
-                                </div>
-                                <div className="w-0 border border-gray-300">
 
+                            {/* Thông tin theo chiều dọc */}
+                            <div className="card w-96 mt-6 mx-auto bg-white shadow-xl hover:shadow p-6">
+                                <div className="py-2">
+                                    <strong>Doctor Name:</strong> Dr. Mike
                                 </div>
-                                <div className="w-1/2 text-center">
-                                    <span className="font-bold">2.0 k</span> Following
+                                <div className="py-2">
+                                    <strong>Hospital:</strong> City Health Clinic
+                                </div>
+                                <div className="py-2">
+                                    <strong>Doctor ID:</strong> DR123456
+                                </div>
+                                <div className="py-2">
+                                    <strong>Patients Managed:</strong> 150 patients
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </main>
+                    </main>
+                </div>
             </div>
         </>
     )
