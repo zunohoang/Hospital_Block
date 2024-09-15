@@ -33,7 +33,7 @@ export default async function handler(req, res) {
             return res.status(401).json({ message: "Khong tim thay patient" });
         }
 
-        const doctor = await Doctor.findOne({ _id: userId });
+        const doctor = await Doctor.findOne({ _id: userId, acctive: true });
 
         if (doctor) {
             const record = new Record({
