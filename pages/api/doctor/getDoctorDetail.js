@@ -20,7 +20,8 @@ export default async function handler(req, res) {
         try {
             const addressWallet = req.headers['x-user-address'];
 
-            const doctor = await Doctor.findOne({ addressWallet: addressWallet });
+            const doctor = await Doctor.findOne({ addressWallet: addressWallet })
+                .populate('hospital', 'fullName')
 
             if (!doctor) {
                 return res.status(400).json({ success: false });

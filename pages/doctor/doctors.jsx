@@ -24,27 +24,35 @@ function classNames(...classes) {
 }
 
 export default function Doctor() {
-    const [doctors, setDoctors] = useState([]);
+    const [name, setName] = useState('');
+    const [hospital, setHospital] = useState('');
+    const [patients, setPatients] = useState('');
+    const [doctorID, setDoctorID] = useState('');
 
     useEffect(() => {
-        fetch('/api/admin/getDoctors', {
+        fetch('/api/doctor/getDoctorDetail', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                addressWallet: localStorage.getItem("accessToken")
-            })
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            }
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                if (data.doctors) setDoctors(data.doctors);
+                if (data.doctor) {
+                    setName(data.doctor.fullName);
+                    if (data.doctor.hospital) setHospital(data.doctor.hospital.fullName);
+                    else setHospital('Chua lam viec tai benh vien nao');
+                    setPatients(data.doctor.patients.length);
+                    setDoctorID(data.doctor._id);
+                }
             })
             .catch(err => {
                 console.log(err);
             });
     }, []);
+
 
     return (
         <>
@@ -74,7 +82,7 @@ export default function Doctor() {
                             <div className="w-48 h-48 rounded-full overflow-hidden mt-8">
                                 <img
                                     className="object-cover w-full h-full"
-                                    src="https://avatars.githubusercontent.com/u/67946056?v=4"
+                                    src="/doctor.jpg"
                                     alt="Avatar"
                                 />
                             </div>
@@ -82,16 +90,16 @@ export default function Doctor() {
                             {/* Thông tin theo chiều dọc */}
                             <div className="card w-96 mt-6 mx-auto bg-white shadow-xl hover:shadow p-6">
                                 <div className="py-2">
-                                    <strong>Doctor Name:</strong> Dr. Mike
+                                    <strong>Doctor Name:</strong> {name}
                                 </div>
                                 <div className="py-2">
-                                    <strong>Hospital:</strong> City Health Clinic
+                                    <strong>Hospital:</strong> {hospital}
                                 </div>
                                 <div className="py-2">
-                                    <strong>Doctor ID:</strong> DR123456
+                                    <strong>Doctor ID:</strong> {doctorID}
                                 </div>
                                 <div className="py-2">
-                                    <strong>Patients Managed:</strong> 150 patients
+                                    <strong>Patients Managed:</strong> {patients}
                                 </div>
                             </div>
                         </div>
