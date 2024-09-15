@@ -10,8 +10,7 @@ export default function Register() {
         cccd: '',
         birthYear: '',
         hometown: '',
-        hospital: '',
-        file: null
+        hospital: ''
     });
     const [transactionHash, setTransactionHash] = useState('');
 
@@ -59,8 +58,7 @@ export default function Register() {
 
             {role === '2' && (
                 <>
-                    <label>Upload giấy tờ chứng minh:</label>
-                    <input type="file" name="file" onChange={handleInputChange} />
+
                 </>
             )}
 

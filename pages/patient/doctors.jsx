@@ -65,15 +65,15 @@ export default function Doctor() {
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
                     </div>
                 </header>
-                <main>
+                <main className="px-4 py-8">
                     {
                         doctor != null ? (
-                            <div>
-                                <h2>Bác sĩ sẽ phụ trách bạn là:</h2>
-                                <p>{doctor.fullName}</p>
-                                <p>{doctor._id}</p>
+                            <div className="bg-white rounded-lg shadow-lg p-4">
+                                <h2 className="text-2xl font-bold mb-4">Bác sĩ sẽ phụ trách bạn là:</h2>
+                                <p className="text-lg">{doctor.fullName}</p>
+                                <p className="text-lg">{doctor._id}</p>
                             </div>
-                        ) : (<p>Đang chờ bệnh viện sắp xếp bạn cho bác sĩ nào</p>)
+                        ) : (<p className="text-lg">Đang chờ bệnh viện sắp xếp bạn cho bác sĩ nào</p>)
                     }
                 </main>
             </div>

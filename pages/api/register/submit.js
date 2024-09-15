@@ -3,6 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import User from "/models/User";
 import Hospital from "/models/Hospital";
+import Admin from "/models/Admin";
+import Doctor from "/models/Doctor";
+import Patient from "/models/Patient";
+
 
 export default async function handler(req, res) {
     await dbConnect();
@@ -11,14 +15,6 @@ export default async function handler(req, res) {
             const temp = req.body;
 
             console.log('Thông tin đăng ký:', req.body);
-
-            // Nếu có tệp tin, lưu vào thư mục upload
-            if (req.files && req.files.file) {
-                const file = req.files.file;
-                const uploadPath = path.join(process.cwd(), 'public', 'upload', file.name);
-                fs.writeFileSync(uploadPath, file.data);
-            }
-
 
             console.log(temp)
             // Lưu thông tin vào MongoDB
@@ -30,9 +26,43 @@ export default async function handler(req, res) {
                 birthYear: String(temp.birthYear),
                 hometown: String(temp.hometown),
                 hospital: temp.hospital ? String(temp.hospital) : " ",
-                file: temp.fileName ? String(temp.fileName) : "null",
+                file: null,
                 txHash: String(temp.txHash)
             });
+
+            if (role == "0") { // them benh nhan
+                await Patient.insertMany({
+                    fullName: String(temp.name),
+                    addressWallet: String(temp.addressWallet),
+                    idNumber: String(temp.cccd),
+                    birthYear: String(temp.birthYear),
+                    phoneNumber: String(temp.cccd),
+                    hospital: null,
+                    doctor: null,
+                    shareRecord: [],
+                    active: false
+                });
+            } else if (role == "1") {
+                // them bac si
+                await Doctor.insertMany({
+                    fullName: String(temp.name),
+                    addressWallet: String(temp.addressWallet),
+                    hospital: null,
+                    patients: [],
+                    active: false,
+                    shareRecord: []
+                });
+            } else if (role == "2") {
+                // them benh vien
+                await Hospital.insertMany({
+                    fullName: String(temp.name),
+                    addressWallet: String(temp.addressWallet),
+                    patients: [],
+                    doctors: [],
+                    active: false,
+                    shareRecord: []
+                });
+            }
 
 
             res.status(200).json({ message: 'Đăng ký thành công' });
