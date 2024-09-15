@@ -22,6 +22,7 @@ const userNavigation = [
 export default function Admin() {
 
     const [sharedRecords, setSharedRecords] = useState([]);
+    const [spanContent, setSpanContent] = useState(''); // State to store content from span
 
     useEffect(() => {
         const fetchSharedRecords = async () => {
@@ -40,7 +41,7 @@ export default function Admin() {
     }, []);
 
     const handleView = (record) => {
-        alert("View record: " + record.message);
+        setSpanContent(record.message);
     }
 
     return (
@@ -101,6 +102,27 @@ export default function Admin() {
                                 </tbody>
                             </table>
                         </div>
+
+                        {spanContent && (
+                            <div className="bg-white p-6 shadow-lg rounded-lg text-center">
+                                <h3 className="text-xl font-bold text-green-600 mb-4">Record Health Details</h3>
+                                <div className="relative" style={{ paddingBottom: '56.25%', height: 0, overflow: 'hidden' }}>
+                                    <iframe
+                                        src={spanContent}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '0',
+                                            left: '0',
+                                            width: '100%',
+                                            height: '100%',
+                                            border: 'none',
+                                            borderRadius: '10px',
+                                        }}
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </main>
             </div>

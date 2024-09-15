@@ -90,7 +90,7 @@ function PatientDashboard() {
                                                         {patient.doctor.fullName}
                                                     </td>
                                                     <td className="px-6 py-4">
-                                                        <button onClick={() => handleOpenDialog({ fullName: patient.fullName, _id: patient.addressQ })} className="text-blue-600 dark:text-blue-500 hover:underline">
+                                                        <button onClick={() => handleOpenDialog({ fullName: patient.fullName, _id: patient.addressWallet })} className="text-blue-600 dark:text-blue-500 hover:underline">
                                                             Go
                                                         </button>
                                                     </td>
