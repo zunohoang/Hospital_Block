@@ -28,7 +28,7 @@ export default async function handler(req, res) {
                 return res.status(400).json({ message: 'Admin không tồn tại' });
             }
 
-            const doctors = await Doctor.find();
+            const doctors = await Doctor.find().populate("hospital", "fullName");
             res.status(200).json({ doctors });
         } catch {
             console.error('Lỗi khi lấy danh sách bác sĩ:', error);
