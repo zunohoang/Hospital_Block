@@ -96,7 +96,12 @@ export default function Doctor() {
                                                         </div>
                                                     </th>
                                                     <td className="px-6 py-4">
-                                                        {doctor.hospital}
+                                                        {
+                                                            doctor.hospital && (<div className="ps-0">
+                                                                <div className="text-base font-semibold">{doctor.hospital.fullName}</div>
+                                                                <div className="font-normal text-gray-500">ID: {doctor.hospital._id}</div>
+                                                            </div>)
+                                                        }
                                                     </td>
                                                     <td className="px-6 py-4">
                                                         {doctor.patients.length}
