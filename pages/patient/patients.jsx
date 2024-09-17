@@ -203,33 +203,34 @@ const Patients = () => {
         <>
             <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
             <div style={{ width: '80%', margin: '0 auto', padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', fontFamily: 'Arial, sans-serif' }}>
-                <h2 style={{ textAlign: 'center', color: '#333', fontSize: '24px', marginBottom: '20px' }}>Danh sách hồ sơ bệnh án</h2>
+                <h2 style={{ textAlign: 'center', color: '#333', fontSize: '24px', marginBottom: '20px' }}>
+                    Medical records</h2>
                 <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
                     <thead>
-                    <tr>
-                        <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Token Name</th>
-                        <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Fingerprint</th>
-                        <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Policy ID</th>
-                        <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Action</th>
-                    </tr>
+                        <tr>
+                            <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Token Name</th>
+                            <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Fingerprint</th>
+                            <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Policy ID</th>
+                            <th style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px', textAlign: 'left', fontSize: '16px' }}>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {tokens.length > 0 ? (
-                        tokens.map((token, index) => (
-                            <tr key={index}>
-                                <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.assetName)}</td>
-                                <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.fingerprint)}</td>
-                                <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.policyId)}</td>
-                                <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
-                                    <button style={{ padding: '8px 16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={() => handleShare(token)}>View</button>
-                                </td>
+                        {tokens.length > 0 ? (
+                            tokens.map((token, index) => (
+                                <tr key={index}>
+                                    <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.assetName)}</td>
+                                    <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.fingerprint)}</td>
+                                    <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>{shortenString(token.policyId)}</td>
+                                    <td style={{ padding: '10px', borderBottom: '1px solid #ddd' }}>
+                                        <button style={{ padding: '8px 16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }} onClick={() => handleShare(token)}>View</button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" style={{ padding: '10px', textAlign: 'center' }}>No tokens available</td>
                             </tr>
-                        ))
-                    ) : (
-                        <tr>
-                            <td colSpan="4" style={{ padding: '10px', textAlign: 'center' }}>No tokens available</td>
-                        </tr>
-                    )}
+                        )}
                     </tbody>
                 </table>
 

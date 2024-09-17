@@ -55,14 +55,14 @@ export default function Doctor() {
         ```
       */}
             <div className="min-h-full">
-                <Navbar user={user} navigation={navigation} userNavigation={userNavigation}/>
+                <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
                 <main>
                     {/* Phần hiển thị thông tin bác sĩ */}
                     <div className="bg-gray-200 font-sans h-screen w-full flex flex-col justify-center items-center">
                         <div className="card w-full mx-auto bg-white shadow-xl hover:shadow p-6 max-w-lg text-center">
                             {doctor != null ? (
                                 <>
-                                    <h2 className="text-xl font-bold mb-4">Bác sĩ sẽ phụ trách bạn là:</h2>
+                                    <h2 className="text-xl font-bold mb-4">The doctor in charge of you</h2>
                                     <div className="text-2xl font-medium text-gray-800 mb-2">
                                         {doctor.fullName}
                                     </div>
@@ -80,12 +80,12 @@ export default function Doctor() {
                                 </>
                             ) : (
                                 <>
-                                    <p>Đang chờ bệnh viện sắp xếp bạn cho bác sĩ nào</p>
+                                    <p>Wait for the hospital to arrange a doctor for you</p>
                                     <div className="mt-4">
                                         <img
-                                        className="w-24 h-24 rounded-full mx-auto"
-                                        src="/doctor.jpg"
-                                        alt="Doctor"
+                                            className="w-24 h-24 rounded-full mx-auto"
+                                            src="/doctor.jpg"
+                                            alt="Doctor"
                                         />
                                     </div>
                                 </>

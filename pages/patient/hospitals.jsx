@@ -113,7 +113,7 @@ export default function Dashboard() {
                                             </div>
                                             <div className="ml-3 flex-1 md:flex md:justify-between">
                                                 <p className="text-sm text-red-700">
-                                                    Đang chờ bệnh viên {hospital.fullName} - {hospital._id} xác nhận
+                                                    Waiting for confirmation from {hospital.fullName} ({hospital._id}) hospital
                                                 </p>
                                             </div>
                                         </div>

@@ -93,7 +93,7 @@ export default function Dashboard() {
             .then((data) => {
                 console.log(data);
                 if (data.success) {
-                    console.log('Chờ xác nhận');
+                    console.log('Waiting for confirm');
                     setHospital(data.hospital);
                     setActiveDoctor(true);
                 }
@@ -170,8 +170,8 @@ export default function Dashboard() {
                                 <div className="">
                                     {
                                         xacnhan ? (
-                                            <h2 className="text-2xl font-bold tracking-tight text-gray-900">Bạn đang là bác sĩ ở bệnh viện</h2>
-                                        ) : <h2 className="text-2xl font-bold tracking-tight text-gray-900">Đang chờ xác nhận từ</h2>
+                                            <h2 className="text-2xl font-bold tracking-tight text-gray-900">The hospital is working</h2>
+                                        ) : <h2 className="text-2xl font-bold tracking-tight text-gray-900">Waiting for confirm</h2>
                                     }
                                     <b>Name: {hospital.fullName}</b>
                                     <br></br>

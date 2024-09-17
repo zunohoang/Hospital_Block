@@ -43,7 +43,7 @@ export default function Doctor() {
                 if (data.doctor) {
                     setName(data.doctor.fullName);
                     if (data.doctor.hospital) setHospital(data.doctor.hospital.fullName);
-                    else setHospital('Chua lam viec tai benh vien nao');
+                    else setHospital('Not hospital');
                     setPatients(data.doctor.patients.length);
                     setDoctorID(data.doctor._id);
                 }
@@ -65,7 +65,7 @@ export default function Doctor() {
         ```
       */}
             <div className="min-h-full">
-                <Navbar user={user} navigation={navigation} userNavigation={userNavigation}/>
+                <Navbar user={user} navigation={navigation} userNavigation={userNavigation} />
 
                 <div className="min-h-full">
                     <header className="bg-white shadow">
